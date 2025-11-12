@@ -9,7 +9,7 @@ library(lmtest)
 
 #Lectura de serie IPC
 
-Indice<-read.csv("C:\\Users\\Areliuuu\\Dropbox\\PC\\Desktop\\Seminario de Investigacion I\\IPC.csv")
+Indice<-read.csv("C:\Path\IPC.csv")
 write.csv(Indice, file = "serie.csv")
 
 IPC<-ts(Indice, start = c(1969, 01), frequency = 12) #Datos que se quieren de archivo
@@ -155,3 +155,4 @@ abline(h=LI2D, col="red")
 #Supuesto 5: EL modelo es parsimonioso
 
 confint(resARIMA021)
+
