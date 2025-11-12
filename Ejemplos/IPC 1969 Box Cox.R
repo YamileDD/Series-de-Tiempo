@@ -128,6 +128,8 @@ IC_ARIMA022<-confint(ARIMA022)
 IC_ARIMA022
 
 
+############SUPUESTOS############
+
 #Analisis de residuos para ARIMA(0,2,1)
 #Residuales
 resARIMA021 <- residuals(ARIMA021)
@@ -252,6 +254,7 @@ autoplot(Pronosticoautoarima)
 
 #Transformaciones para lograr normalidad (para datos con distribuci�n de cola izquierda)
 #x^2
+
 
 
 
