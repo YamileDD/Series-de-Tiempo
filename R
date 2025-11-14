@@ -1,0 +1,180 @@
+install.packages("fpp2")
+install.packages("tseries")
+install.packages("lmtest")
+install.packages("car")
+install.packages("readr")
+library(fpp2)
+library(ggplot2)
+library(forecast)
+library(fma)
+library(expsmooth)
+library(tseries)
+library(nortest)
+library(lmtest)
+library(car)
+library(readr)
+
+show_col_types=FALSE
+dataBase<-read_csv("serie BIE.csv")
+head(dataBase)
+
+### Convertimos en serie de tiempo
+# Primero del 2025
+tsP1<-ts(dataBase, start=c(2005,01),end=c(2024,04), frequency = 4)
+tsP1
+
+var(tsP1) #84.87063
+
+#BoxCox
+lambdaP<-BoxCox.lambda(tsP1) #-0.9999242
+
+BoxCoxTs1<-BoxCox(tsP1,lambdaP)
+var(BoxCoxTs1) #1.037444e-06 disminuye considerablemente la varianza
+
+
+#Gráficas
+autoplot(tsP1)
+autoplot(BoxCoxTs1)
+#Por lo que vemos en las gráficas no es normal.
+
+#Dickey-Fuller
+adf.test(BoxCoxTs1)
+#0.01344 no es estacionario
+# Casi es estacionaro pero levemente el p value es mayor a 0.01 por lo que agregamos una diferencia 
+shapiro.test(BoxCoxTs1)
+
+
+#Debemos aplicar diferencias
+#1RA Diferencia
+BoxCoxdiff1<-diff(BoxCoxTs1,differences=1)
+adf.test(BoxCoxdiff1)
+# p value ya es menor a 0.01.
+#Con una diferencia ya es estacionario
+shapiro.test(BoxCoxdiff1)
+
+var(BoxCoxdiff1) #1.787235e-07 menor varianza con una diferencia
+par(mfrow=c(1,1))
+
+modelo1<-auto.arima(tsP1) #ARIMA(0,1,1),theta1=-0.5764 & el drift de 0.4028 
+
+#FAC y FACP 1ra dif.
+autoplot(acf(BoxCoxdiff1,plot=FALSE))+labs(title="Diff1 Autocorrelaciones Simples")
+autoplot(pacf(BoxCoxdiff1,plot=FALSE))+labs(title="Diff1 Autocorrelaciones Parciales")
+#De acuerdo a la gráfica de autocorrelaciones consideramos el modelo ARIMA(0,1,1) 
+
+#2DA Diferencia
+BoxCoxdiff2<-diff(BoxCoxTs1,differences=2)
+
+autoplot(acf(BoxCoxdiff2,plot=FALSE))+labs(title="Diff2 Autocorrelaciones Simples")
+autoplot(pacf(BoxCoxdiff2,plot=FALSE))+labs(title="Diff2 Autocorrelaciones Parciales")
+#De acuerdo a las gráficas pareciera que tenemos un ARIMA(0,2,1)
+
+#3RA Diferencia
+BoxCoxdiff3<-diff(BoxCoxTs1,differences=3)
+
+autoplot(acf(BoxCoxdiff3,plot=FALSE))+labs(title="Diff3 Autocorrelaciones Simples")
+autoplot(pacf(BoxCoxdiff3,plot=FALSE))+labs(title="Diff3 Autocorrelaciones Parciales")
+#De acuerdo a la gráficas pareciera que tenemos un ARIMA(0,3,1)
+
+c(var_diff1 = var(BoxCoxdiff1),
+  var_diff2 = var(BoxCoxdiff2),
+  var_diff3 = var(BoxCoxdiff3))
+#tienes que sacra la varianza de cada uno y te quedes con el de la varianz amas chica
+
+
+#Probar supuestos
+modelo1<-Arima(BoxCoxdiff1,c(0,0,1))
+
+#Supuesto
+resModelo1<-modelo1$residuals
+
+nResM1<-length(resModelo1)
+
+nTotal<-length(tsP1)
+
+#Parámetros
+
+mediaResModelo1<-mean(resModelo1) #-2.378467e-06
+desvResModelo1<-sqrt(sum(resModelo1^2)/(nResM1-1)) #0.0003990355
+
+modelo1
+coef(modelo1)
+modelo1[["var.coef"]]
+
+theta1M1 <- -1 * as.numeric(coef(modelo1)["ma1"])
+
+resModelo1 <- residuals(modelo1)
+nResM1 <- length(resModelo1)
+nTotal <- length(tsP1)
+
+#Prueba 
+abs(sqrt(nTotal-1-1)*mediaResModelo1/desvResModelo1) #0.05264206 
+#esto es menor a 2, los residuos tiene media cero
+
+#### Supesto 1:  media ~ 0
+sumaMediaResM1 <- sum(resModelo1)       
+mediaResModelo1 <- sumaMediaResM1 / nResM1
+desvResModelo1 <- sqrt(sum(resModelo1^2) / (nResM1 - 1))
+abs( sqrt(nResM1) * mediaResModelo1 / desvResModelo1 )
+
+#### Supuesto 2: Residuos varianza constante
+autoplot(resModelo1) + ggtitle("Residuos del modelo")  #en general existe varianza monótona
+
+##### Supuesto 3: Independencia, residuos no correlacionados
+#Pruebas Box-Pierce, Ljung Box o DW
+#En este caso utilizamos Box-Pierce o Ljun Box ya que no tenemos AR(1)
+
+#H0: pk = 0 para todo k
+#HA: existe k, pk=!0
+
+#AQUI checra si solo checo del ultimo resago o checo hasta el ultimo del primer año?
+Box.test(resModelo1,type=c("Box-Pierce"), lag = 4)
+Box.test(resModelo1,type=c("Ljung-Box"), lag = 4)
+
+#No rechazamos H0, por lo que los residuos son independientes.
+
+##### Supuesto 4: Normalidad
+
+lillie.test(resModelo1)
+shapiro.test(resModelo1)
+ad.test(resModelo1)
+#Los residuos son normales
+
+#Regla empírica ±2σ
+supModelo1 <- mediaResModelo1 + 2 * desvResModelo1
+infModelo1 <- mediaResModelo1 - 2 * desvResModelo1
+mean(resModelo1 > infModelo1 & resModelo1 < supModelo1) #0.9620253
+#Se cumple que los residuos se encuentran dentro de +-2 desv std
+
+##### Supuesto 5: Modelo Parsimonioso
+#Construir intervalos alrededor de los parámetros
+#Sabemos que nuestros Parámetros(coeficientes) son theta1=0.4137609
+vc <- modelo1[["var.coef"]]
+varTheta1 <- as.numeric(vc["ma1","ma1"])
+IC_theta1 <- c(theta1M1 - 2*sqrt(varTheta1), theta1M1 + 2*sqrt(varTheta1))
+IC_theta1
+#(0.1586426 , 0.6688793)
+#No contiene al cero
+
+#### Supuesto 6: Modelo admisible
+#Verificar estacionariedad e invertibilidad
+#Para MA(1) invertible: |ma1(param de R)| < 1
+abs(as.numeric(coef(modelo1)["ma1"])) < 1
+#Al ser un MA(1) es estacionario y comprobamos que es invertible.
+
+#### Supuesto 7: Estabilidad (correlaciones entre parámetros)
+# Solo hay 1 parámetro MA1 en este ajuste sin drift;
+#si incluimos al drift podemos revisar correlaciones y cambia
+
+
+#### Supuesto 8: Valores atípicos ±3σ
+sup_m1 <- mediaResModelo1 + 3 * desvResModelo1
+inf_m1 <- mediaResModelo1 - 3 * desvResModelo1
+sum(!(resModelo1 > inf_m1 & resModelo1 < sup_m1))
+# comentario """"
+
+
+
+##### Pronósticos Modelo 1
+#Residuales
+theta1M1
