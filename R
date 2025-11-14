@@ -178,3 +178,236 @@ sum(!(resModelo1 > inf_m1 & resModelo1 < sup_m1))
 ##### Pronósticos Modelo 1
 #Residuales
 theta1M1
+aHatM1[1]=0
+aHatM1[2]=BoxCoxTs1[2]-BoxCoxTs1[1]-theta1M1*aHatM1[1]
+aHatM1[3]=BoxCoxTs1[3]-BoxCoxTs1[2]-theta1M1*aHatM1[2]
+aHatM1[4]=BoxCoxTs1[4]-BoxCoxTs1[3]-theta1M1*aHatM1[3]
+aHatM1[5]=BoxCoxTs1[5]-BoxCoxTs1[4]-theta1M1*aHatM1[4]
+aHatM1[6]=BoxCoxTs1[6]-BoxCoxTs1[5]-theta1M1*aHatM1[5]
+aHatM1[7]=BoxCoxTs1[7]-BoxCoxTs1[6]-theta1M1*aHatM1[6]
+aHatM1[8]=BoxCoxTs1[8]-BoxCoxTs1[7]-theta1M1*aHatM1[7]
+aHatM1[9]=BoxCoxTs1[9]-BoxCoxTs1[8]-theta1M1*aHatM1[8]
+aHatM1[10]=BoxCoxTs1[10]-BoxCoxTs1[9]-theta1M1*aHatM1[9]
+aHatM1[11]=BoxCoxTs1[11]-BoxCoxTs1[10]-theta1M1*aHatM1[10]
+aHatM1[12]=BoxCoxTs1[12]-BoxCoxTs1[11]-theta1M1*aHatM1[11]
+aHatM1[13]=BoxCoxTs1[13]-BoxCoxTs1[12]-theta1M1*aHatM1[12]
+aHatM1[14]=BoxCoxTs1[14]-BoxCoxTs1[13]-theta1M1*aHatM1[13]
+aHatM1[15]=BoxCoxTs1[15]-BoxCoxTs1[14]-theta1M1*aHatM1[14]
+aHatM1[16]=BoxCoxTs1[16]-BoxCoxTs1[15]-theta1M1*aHatM1[15]
+aHatM1[17]=BoxCoxTs1[17]-BoxCoxTs1[16]-theta1M1*aHatM1[16]
+aHatM1[18]=BoxCoxTs1[18]-BoxCoxTs1[17]-theta1M1*aHatM1[17]
+aHatM1[19]=BoxCoxTs1[19]-BoxCoxTs1[18]-theta1M1*aHatM1[18]
+aHatM1[20]=BoxCoxTs1[20]-BoxCoxTs1[19]-theta1M1*aHatM1[19]
+aHatM1[21]=BoxCoxTs1[21]-BoxCoxTs1[20]-theta1M1*aHatM1[20]
+aHatM1[22]=BoxCoxTs1[22]-BoxCoxTs1[21]-theta1M1*aHatM1[21]
+aHatM1[23]=BoxCoxTs1[23]-BoxCoxTs1[22]-theta1M1*aHatM1[22]
+aHatM1[24]=BoxCoxTs1[24]-BoxCoxTs1[23]-theta1M1*aHatM1[23]
+aHatM1[25]=BoxCoxTs1[25]-BoxCoxTs1[24]-theta1M1*aHatM1[24]
+aHatM1[26]=BoxCoxTs1[26]-BoxCoxTs1[25]-theta1M1*aHatM1[25]
+aHatM1[27]=BoxCoxTs1[27]-BoxCoxTs1[26]-theta1M1*aHatM1[26]
+aHatM1[28]=BoxCoxTs1[28]-BoxCoxTs1[27]-theta1M1*aHatM1[27]
+aHatM1[29]=BoxCoxTs1[29]-BoxCoxTs1[28]-theta1M1*aHatM1[28]
+aHatM1[30]=BoxCoxTs1[30]-BoxCoxTs1[29]-theta1M1*aHatM1[29]
+aHatM1[31]=BoxCoxTs1[31]-BoxCoxTs1[30]-theta1M1*aHatM1[30]
+aHatM1[32]=BoxCoxTs1[32]-BoxCoxTs1[31]-theta1M1*aHatM1[31]
+aHatM1[33]=BoxCoxTs1[33]-BoxCoxTs1[32]-theta1M1*aHatM1[32]
+aHatM1[34]=BoxCoxTs1[34]-BoxCoxTs1[33]-theta1M1*aHatM1[33]
+aHatM1[35]=BoxCoxTs1[35]-BoxCoxTs1[34]-theta1M1*aHatM1[34]
+aHatM1[36]=BoxCoxTs1[36]-BoxCoxTs1[35]-theta1M1*aHatM1[35]
+aHatM1[37]=BoxCoxTs1[37]-BoxCoxTs1[36]-theta1M1*aHatM1[36]
+aHatM1[38]=BoxCoxTs1[38]-BoxCoxTs1[37]-theta1M1*aHatM1[37]
+aHatM1[39]=BoxCoxTs1[39]-BoxCoxTs1[38]-theta1M1*aHatM1[38]
+aHatM1[40]=BoxCoxTs1[40]-BoxCoxTs1[39]-theta1M1*aHatM1[39]
+aHatM1[41]=BoxCoxTs1[41]-BoxCoxTs1[40]-theta1M1*aHatM1[40]
+aHatM1[42]=BoxCoxTs1[42]-BoxCoxTs1[41]-theta1M1*aHatM1[41]
+aHatM1[43]=BoxCoxTs1[43]-BoxCoxTs1[42]-theta1M1*aHatM1[42]
+aHatM1[44]=BoxCoxTs1[44]-BoxCoxTs1[43]-theta1M1*aHatM1[43]
+aHatM1[45]=BoxCoxTs1[45]-BoxCoxTs1[44]-theta1M1*aHatM1[44]
+aHatM1[46]=BoxCoxTs1[46]-BoxCoxTs1[45]-theta1M1*aHatM1[45]
+aHatM1[47]=BoxCoxTs1[47]-BoxCoxTs1[46]-theta1M1*aHatM1[46]
+aHatM1[48]=BoxCoxTs1[48]-BoxCoxTs1[47]-theta1M1*aHatM1[47]
+aHatM1[49]=BoxCoxTs1[49]-BoxCoxTs1[48]-theta1M1*aHatM1[48]
+aHatM1[50]=BoxCoxTs1[50]-BoxCoxTs1[49]-theta1M1*aHatM1[49]
+aHatM1[51]=BoxCoxTs1[51]-BoxCoxTs1[50]-theta1M1*aHatM1[50]
+aHatM1[52]=BoxCoxTs1[52]-BoxCoxTs1[51]-theta1M1*aHatM1[51]
+aHatM1[53]=BoxCoxTs1[53]-BoxCoxTs1[52]-theta1M1*aHatM1[52]
+aHatM1[54]=BoxCoxTs1[54]-BoxCoxTs1[53]-theta1M1*aHatM1[53]
+aHatM1[55]=BoxCoxTs1[55]-BoxCoxTs1[54]-theta1M1*aHatM1[54]
+aHatM1[56]=BoxCoxTs1[56]-BoxCoxTs1[55]-theta1M1*aHatM1[55]
+aHatM1[57]=BoxCoxTs1[57]-BoxCoxTs1[56]-theta1M1*aHatM1[56]
+aHatM1[58]=BoxCoxTs1[58]-BoxCoxTs1[57]-theta1M1*aHatM1[57]
+aHatM1[59]=BoxCoxTs1[59]-BoxCoxTs1[58]-theta1M1*aHatM1[58]
+aHatM1[60]=BoxCoxTs1[60]-BoxCoxTs1[59]-theta1M1*aHatM1[59]
+aHatM1[61]=BoxCoxTs1[61]-BoxCoxTs1[60]-theta1M1*aHatM1[60]
+aHatM1[62]=BoxCoxTs1[62]-BoxCoxTs1[61]-theta1M1*aHatM1[61]
+aHatM1[63]=BoxCoxTs1[63]-BoxCoxTs1[62]-theta1M1*aHatM1[62]
+aHatM1[64]=BoxCoxTs1[64]-BoxCoxTs1[63]-theta1M1*aHatM1[63]
+aHatM1[65]=BoxCoxTs1[65]-BoxCoxTs1[64]-theta1M1*aHatM1[64]
+aHatM1[66]=BoxCoxTs1[66]-BoxCoxTs1[65]-theta1M1*aHatM1[65]
+aHatM1[67]=BoxCoxTs1[67]-BoxCoxTs1[66]-theta1M1*aHatM1[66]
+aHatM1[68]=BoxCoxTs1[68]-BoxCoxTs1[67]-theta1M1*aHatM1[67]
+aHatM1[69]=BoxCoxTs1[69]-BoxCoxTs1[68]-theta1M1*aHatM1[68]
+aHatM1[70]=BoxCoxTs1[70]-BoxCoxTs1[69]-theta1M1*aHatM1[69]
+aHatM1[71]=BoxCoxTs1[71]-BoxCoxTs1[70]-theta1M1*aHatM1[70]
+aHatM1[72]=BoxCoxTs1[72]-BoxCoxTs1[71]-theta1M1*aHatM1[71]
+aHatM1[73]=BoxCoxTs1[73]-BoxCoxTs1[72]-theta1M1*aHatM1[72]
+aHatM1[74]=BoxCoxTs1[74]-BoxCoxTs1[73]-theta1M1*aHatM1[73]
+aHatM1[75]=BoxCoxTs1[75]-BoxCoxTs1[74]-theta1M1*aHatM1[74]
+aHatM1[76]=BoxCoxTs1[76]-BoxCoxTs1[75]-theta1M1*aHatM1[75]
+aHatM1[77]=BoxCoxTs1[77]-BoxCoxTs1[76]-theta1M1*aHatM1[76]
+aHatM1[78]=BoxCoxTs1[78]-BoxCoxTs1[77]-theta1M1*aHatM1[77]
+aHatM1[79]=BoxCoxTs1[79]-BoxCoxTs1[78]-theta1M1*aHatM1[78]
+aHatM1[80]=BoxCoxTs1[80]-BoxCoxTs1[79]-theta1M1*aHatM1[79]
+#el número 81 es 118.3083856
+aHatM1[81]=118.3083856-BoxCoxTs1[80]-theta1M1*aHatM1[80]
+
+nTotal <- length(BoxCoxTs1)
+aHatM1 <- numeric(nTotal)
+aHatM1[1] <- 0 
+
+for (t in 2:nTotal) {
+  aHatM1[t] <- BoxCoxTs1[t] - BoxCoxTs1[t-1] - theta1M1 * aHatM1[t-1]
+}
+
+pronostico1M1 <- BoxCoxTs1[80]+theta1M1*aHatM1[80] #0.9906077
+pronostico2M1 <- pronostico1M1+theta1M1*0 #0.9906077
+
+pronosticos10 <- numeric(10)
+pronosticos10[1] <- pronostico1M1
+for (j in 2:10) {
+  pronosticos10[j] <- pronosticos10[j-1]
+}
+
+#Intervalos
+phi1M1 <- 1
+H <- 10
+
+ep0 <- -1
+ep1 <- theta1M1+(1+phi1M1)*ep0
+
+epsis <- numeric(H)
+epsis[1] <- -1
+epsis[2] <- theta1M1 + (1 + phi1M1) * epsis[1]
+
+for (j in 3:H) {
+  epsis[j] <- (1 + phi1M1) * epsis[j-1] - phi1M1 * epsis[j-2]
+}
+
+
+MOES<-c()
+intInfM1<-c()
+intSupM1<-c()
+
+for(j in 1:10){
+  MOES[j]<-qnorm(0.05/2)*(sum(epsis[1:j]^2))^(1/2)*desvResModelo1
+  intInfM1[j]<-pronosticos10[j]+MOES[j]
+  intSupM1[j]<-pronosticos10[j]-MOES[j]
+}
+intInfM1
+pronosticos10
+intSupM1
+
+
+#####Pronósticos Serie Original
+varEthM1<-c()
+for(j in 1:10){
+  varEthM1[j]<-(sum(epsis[1:j]^2))*(desvResModelo1)^2
+}
+varEthM1
+
+#sesgo
+x1<-c()
+sesgoM1<-c()
+tInversa<-c()
+pSerieOriginal<-c()
+
+for(j in 1:10){
+  x1[j]<-2*lambdaP*(lambdaP-1)*((1+lambdaP*pronosticos10[j])^(-2))*(varEthM1[j])
+  sesgoM1[j]<-(1/2+sqrt(1-x1[j])/2)^(1/lambdaP)
+  tInversa[j]<-(lambdaP*pronosticos10[j]+1)^(1/lambdaP)
+  pSerieOriginal[j]<-tInversa[j]*sesgoM1[j]
+}
+
+pSerieOriginal
+
+#Intervalo de predicción
+
+intInfOriginal<-c()
+intSupOriginal<-c()
+MOEOriginal<-c()
+
+for(j in 1:10){
+  MOEOriginal[j]<-qnorm(0.05/2)*sqrt(varEthM1[j])
+  intInfOriginal[j]<-pSerieOriginal[j]+MOEOriginal[j]
+  intSupOriginal[j]<-pSerieOriginal[j]-MOEOriginal[j]
+}
+
+intInfOriginal
+pSerieOriginal
+intSupOriginal
+
+##### Actualización de pronóstico
+
+ZtNew<-105.3997988
+TZtNew<-((ZtNew^lambdaP)-1)/lambdaP
+aN<-TZtNew-pronosticos10[1]
+
+actPronosticos<-c()
+
+for(j in 1:9){
+  actPronosticos[j]<-pronosticos10[j+1]-epsis[j+1]*aN  
+}
+
+actPronosticos
+
+forecast(Arima(BoxCoxTs1,order=c(1,1,2)))
+forecast(modelo1)
+
+#Intervalos
+
+intInfAct<-c()
+intSupAct<-c()
+MOESAct<-c()
+
+for (j in 1:9) {
+  MOESAct[j] <- qnorm(0.05/2) * (sum(epsis[1:j]^2))^(1/2) * desvResModelo1
+  intInfAct[j] <- actPronosticos[j] + MOESAct[j]
+  intSupAct[j] <- actPronosticos[j] - MOESAct[j]
+}
+
+
+intInfAct
+intSupAct
+
+#### Actualización serie original
+
+pSerieOriginalAct<-c()
+sesgoAct<-c()
+xAct<-c()
+tInvAct<-c()
+
+for(j in 1:9){
+  xAct[j]<-2*lambdaP*(lambdaP-1)*((1+lambdaP*actPronosticos[j])^(-2))*(varEthM1[j])
+  sesgoAct[j]<-(1/2+sqrt(1-xAct[j])/2)^(1/lambdaP)
+  tInvAct[j]<-(lambdaP*actPronosticos[j]+1)^(1/lambdaP)
+  pSerieOriginalAct[j]<-tInvAct[j]*sesgoAct[j]
+}
+
+pSerieOriginalAct
+
+#Intervalo de predicción actualización serie original
+
+intInfOrigAct<-c()
+intSupOrigAct<-c()
+MOEOrigAct<-c()
+
+for(j in 1:9){
+  MOEOrigAct[j]<-qnorm(0.05/2)*sqrt(varEthM1[j])
+  intInfOrigAct[j]<-pSerieOriginalAct[j]+MOEOrigAct[j]
+  intSupOrigAct[j]<-pSerieOriginalAct[j]-MOEOrigAct[j]
+}
+
+intInfOrigAct
+intSupOrigAct
+
+
