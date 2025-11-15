@@ -412,6 +412,7 @@ intSupOrigAct
 
 
 ################
+################
 #Modelo 2
 #ARIMA(0,2,1)
 #Probar supuestos
@@ -464,7 +465,8 @@ Box.test(resModelo2,type=c("Ljung-Box")) #pvalue= 0.04109
 lillie.test(resModelo2) #4.414e-05
 shapiro.test(resModelo2) #3.542e-08
 ad.test(resModelo2) #1.412e-08
-#no se rechaza H0: por lo que hay normalidad en los residuos
+#Dado que los p-values son muy pequeños, se rechaza H0 de normalidad,
+#por lo que los residuos NO siguen una distribución normal.
 
 #Regla empírica ±2σ
 supModelo2 <- mediaResModelo2 + 2 * desvResModelo2
@@ -501,15 +503,15 @@ sum(!(resModelo2 > inf_m2 & resModelo2 < sup_m2))
 #################
 #Modelo 3
 
-modelo3<-Arima(BoxCoxdiff2,c(0,0,1))
-modelo3 ##theta=-1
+modelo3<-Arima(BoxCoxTs1,c(0,3,1))
+modelo3 #theta=-0.9999
 
 resModelo3<-modelo3$residuals
 nResM3<-length(resModelo3)
 
 #Parámetros
-mediaResModelo3<-mean(resModelo3) #6.738427e-06
-desvResModelo3<-sqrt(sum(resModelo3^2)/(nResM3-1)) #0.0004248174
+mediaResModelo3<-mean(resModelo3) #-5.55924e-05
+desvResModelo3<-sqrt(sum(resModelo3^2)/(nResM3-1)) #0.0006903497
 
 modelo3
 coef(modelo3)
@@ -522,7 +524,7 @@ nResM3 <- length(resModelo3)
 nTotal <- length(tsP1)
 
 #Prueba 
-abs(sqrt(nTotal-1-1)*mediaResModelo3/desvResModelo3) #0.1400888
+abs(sqrt(nTotal-1-1)*mediaResModelo3/desvResModelo3) #0.711203
 #esto es menor a 2, los residuos tiene media cero
 
 #### Supuesto 2: residuos varianza constante
@@ -537,22 +539,23 @@ plot(resModelo3, col="blue",main="Residuos Modelo Arima(0,2,1)",xlab="Tiempo",yl
 #H0: pk = 0 para todo k
 #HA: existe k, pk=!0
 
-Box.test(resModelo3,type=c("Box-Pierce")) #pvalue = 0.04472
-Box.test(resModelo3,type=c("Ljung-Box")) #pvalue = 0.04075
+Box.test(resModelo3,type=c("Box-Pierce")) #pvalue = 2.037e-07
+Box.test(resModelo3,type=c("Ljung-Box")) #pvalue = 1.199e-07
 
 # se rechaza H0, por lo que los residuos no son independientes
 
 ### Supuesto 4:Normalidad
-lillie.test(resModelo3) #pvalue = 1.616e-05
-shapiro.test(resModelo3) #pvalue = 4.512e-08
-ad.test(resModelo3) #pvalue = 2.506e-08
+lillie.test(resModelo3) #pvalue = 9.205e-06
+shapiro.test(resModelo3) #pvalue = 1.117e-07
+ad.test(resModelo3) #pvalue = 5.829e-08
 
-# se rechaza H0: por lo que no hay normalidad en los residuos
+# se rechaza H0: ya que los p-values son muy pequeños
+# por lo que no hay normalidad en los residuos
 
 #Regla empírica ±2σ
 supModelo3 <- mediaResModelo3 + 2 * desvResModelo3
 infModelo3 <- mediaResModelo3 - 2 * desvResModelo3
-mean(resModelo3 > infModelo3 & resModelo3 < supModelo3) #0.9615385
+mean(resModelo3 > infModelo3 & resModelo3 < supModelo3) #0.9375
 #Se cumple que los residuos se encuentran dentro de +-2 desv std
 
 ##### Supuesto 5: Modelo Parsimonioso
@@ -562,7 +565,7 @@ vc <- modelo3[["var.coef"]]
 varTheta3 <- as.numeric(vc["ma1","ma1"])
 IC_theta3 <- c(theta1M3 - 2*sqrt(varTheta3), theta1M3 + 2*sqrt(varTheta3))
 IC_theta3
-#(0.9345089 , 1.0654901)
+#(0.9340623 , 1.0657963)
 #No contiene al cero
 
 #### Supuesto 6: Modelo admisible
@@ -580,4 +583,3 @@ sup_m3 <- mediaResModelo3 + 3 * desvResModelo3
 inf_m3 <- mediaResModelo3 - 3 * desvResModelo3
 sum(!(resModelo3 > inf_m3 & resModelo3 < sup_m3))
 # comentario """"
-
