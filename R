@@ -411,3 +411,173 @@ intInfOrigAct
 intSupOrigAct
 
 
+################
+#Modelo 2
+#ARIMA(0,2,1)
+#Probar supuestos
+###Supuesto 1: Residuos tienen media 0
+
+modelo2<-Arima(BoxCoxdiff1,c(0,1,1))
+modelo2 #theta=-1
+
+resModelo2<-modelo2$residuals
+
+nResM2<-length(resModelo2) #79
+
+#parametros
+
+mediaResModelo2<-mean(resModelo2) #-1.385077e-05
+desvResModelo2<-sqrt(sum(resModelo2^2)/(nResM2-1)) #0.000422757
+
+modelo2
+coef(modelo2)
+modelo2[["var.coef"]]
+
+theta1M2 <- -1 * as.numeric(coef(modelo2)["ma1"])
+
+resModelo2 <- residuals(modelo2)
+nResM2 <- length(resModelo2)
+nTotal <- length(tsP1)
+
+#Prueba 
+abs(sqrt(nTotal-1-1)*mediaResModelo2/desvResModelo2) #0.2893545
+#esto es menor a 2, los residuos tiene media cero
+
+####Supuesto 2: residuos varianza constante
+autoplot(resModelo2)
+
+plot(resModelo2, col="blue",main="Residuos Modelo Arima(0,2,1)",xlab="Tiempo",ylab="Residuos")
+#en general existe varianza monótona
+
+###Supuesto 3: Independencia, residuos no correlacionados
+#Pruebas Box-Pierce, Ljung Box o DW
+
+#H0: pk = 0 para todo k
+#HA: existe k, pk=!0
+
+Box.test(resModelo2,type=c("Box-Pierce")) #pvalue = 0.04502
+Box.test(resModelo2,type=c("Ljung-Box")) #pvalue= 0.04109
+
+#no se rechaza H0, por lo que los residuos son independientes
+
+### Supuesto 4:Normalidad
+lillie.test(resModelo2) #4.414e-05
+shapiro.test(resModelo2) #3.542e-08
+ad.test(resModelo2) #1.412e-08
+#no se rechaza H0: por lo que hay normalidad en los residuos
+
+#Regla empírica ±2σ
+supModelo2 <- mediaResModelo2 + 2 * desvResModelo2
+infModelo2 <- mediaResModelo2 - 2 * desvResModelo2
+mean(resModelo2 > infModelo2 & resModelo2 < supModelo2) #0.9493671
+#Se cumple que los residuos se encuentran dentro de +-2 desv std
+
+##### Supuesto 5: Modelo Parsimonioso
+#Construir intervalos alrededor de los parámetros
+#Sabemos que nuestros Parámetros(coeficientes) son theta1=0.4137609
+vc <- modelo2[["var.coef"]]
+varTheta2 <- as.numeric(vc["ma1","ma1"])
+IC_theta2 <- c(theta1M2 - 2*sqrt(varTheta2), theta1M2 + 2*sqrt(varTheta2))
+IC_theta2
+#(0.9297714 , 1.0702286)
+#No contiene al cero
+
+#### Supuesto 6: Modelo admisible
+#Verificar estacionariedad e invertibilidad
+#Para MA(1) invertible: |ma1(param de R)| < 1
+abs(as.numeric(coef(modelo2)["ma1"])) < 1
+#Al ser un MA(1) es estacionario y comprobamos que es invertible.
+
+#### Supuesto 7: Estabilidad (correlaciones entre parámetros)
+# Solo hay 1 parámetro MA1 en este ajuste sin drift;
+#si incluimos al drift podemos revisar correlaciones y cambia
+
+#### Supuesto 8: Valores atípicos ±3σ
+sup_m2 <- mediaResModelo2 + 3 * desvResModelo2
+inf_m2 <- mediaResModelo2 - 3 * desvResModelo2
+sum(!(resModelo2 > inf_m2 & resModelo2 < sup_m2))
+# comentario """"
+
+#################
+#Modelo 3
+
+modelo3<-Arima(BoxCoxdiff2,c(0,0,1))
+modelo3 ##theta=-1
+
+resModelo3<-modelo3$residuals
+nResM3<-length(resModelo3)
+
+#Parámetros
+mediaResModelo3<-mean(resModelo3) #6.738427e-06
+desvResModelo3<-sqrt(sum(resModelo3^2)/(nResM3-1)) #0.0004248174
+
+modelo3
+coef(modelo3)
+modelo3[["var.coef"]]
+
+theta1M3 <- -1 * as.numeric(coef(modelo3)["ma1"])
+
+resModelo3 <- residuals(modelo3)
+nResM3 <- length(resModelo3)
+nTotal <- length(tsP1)
+
+#Prueba 
+abs(sqrt(nTotal-1-1)*mediaResModelo3/desvResModelo3) #0.1400888
+#esto es menor a 2, los residuos tiene media cero
+
+#### Supuesto 2: residuos varianza constante
+autoplot(resModelo3)
+plot(resModelo3, col="blue",main="Residuos Modelo Arima(0,2,1)",xlab="Tiempo",ylab="Residuos")
+
+#en general varianza constante/monotona 
+
+
+###Supuesto 3: Independencia, residuos no correlacionados
+
+#H0: pk = 0 para todo k
+#HA: existe k, pk=!0
+
+Box.test(resModelo3,type=c("Box-Pierce")) #pvalue = 0.04472
+Box.test(resModelo3,type=c("Ljung-Box")) #pvalue = 0.04075
+
+# se rechaza H0, por lo que los residuos no son independientes
+
+### Supuesto 4:Normalidad
+lillie.test(resModelo3) #pvalue = 1.616e-05
+shapiro.test(resModelo3) #pvalue = 4.512e-08
+ad.test(resModelo3) #pvalue = 2.506e-08
+
+# se rechaza H0: por lo que no hay normalidad en los residuos
+
+#Regla empírica ±2σ
+supModelo3 <- mediaResModelo3 + 2 * desvResModelo3
+infModelo3 <- mediaResModelo3 - 2 * desvResModelo3
+mean(resModelo3 > infModelo3 & resModelo3 < supModelo3) #0.9615385
+#Se cumple que los residuos se encuentran dentro de +-2 desv std
+
+##### Supuesto 5: Modelo Parsimonioso
+#Construir intervalos alrededor de los parámetros
+#Sabemos que nuestros Parámetros(coeficientes) son theta1=0.4137609
+vc <- modelo3[["var.coef"]]
+varTheta3 <- as.numeric(vc["ma1","ma1"])
+IC_theta3 <- c(theta1M3 - 2*sqrt(varTheta3), theta1M3 + 2*sqrt(varTheta3))
+IC_theta3
+#(0.9345089 , 1.0654901)
+#No contiene al cero
+
+#### Supuesto 6: Modelo admisible
+#Verificar estacionariedad e invertibilidad
+#Para MA(1) invertible: |ma1(param de R)| < 1
+abs(as.numeric(coef(modelo3)["ma1"])) < 1
+#Al ser un MA(1) es estacionario y comprobamos que es invertible.
+
+#### Supuesto 7: Estabilidad (correlaciones entre parámetros)
+# Solo hay 1 parámetro MA1 en este ajuste sin drift;
+#si incluimos al drift podemos revisar correlaciones y cambia
+
+#### Supuesto 8: Valores atípicos ±3σ
+sup_m3 <- mediaResModelo3 + 3 * desvResModelo3
+inf_m3 <- mediaResModelo3 - 3 * desvResModelo3
+sum(!(resModelo3 > inf_m3 & resModelo3 < sup_m3))
+# comentario """"
+
